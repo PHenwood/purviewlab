@@ -118,7 +118,7 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
 
 4. To execute the query, click **Run**. Note: The user executing the query must have the appropriate level of access (e.g. Storage Blob Data Reader), see step 1 for more details..
 
-    ![Run Query](../images/module03/03.3-synapse-run.png)
+    ![Run Query](../images/module03/03.15-synapse-run.png)
 
 <div align="right"><a href="#module-03---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
