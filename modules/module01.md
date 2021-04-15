@@ -122,34 +122,6 @@ To create and use the Azure Purview platform, you will need to provision an Azur
 
 <div align="right"><a href="#module-01---create-an-azure-purview-account">↥ back to top</a></div>
 
-## :mortar_board: Knowledge Check
-
-1. Which of the following Azure Purview pricing meters is fluid, with consumption varying based on usage?
-
-    A ) Capacity Units  
-    B ) vCore Hours  
-    C ) Neither
-
-2. Which of the following Azure Purview pricing meters is fixed, with consumption based on quantity provisioned?
-
-    A ) Capacity Units  
-    B ) vCore Hours  
-    C ) Neither
-
-3. Which Azure Purview module provides the base functionality (i.e. source registration, automated scanning and classification, data discovery)?
-
-    A ) C0  
-    B ) C1  
-    C ) D0
-
-4. Which predefined Azure Purview role provides access to manage data sources?
-
-    A ) Purview Data Reader  
-    B ) Purview Data Curator  
-    C ) Purview Data Source Administrator
-
-<div align="right"><a href="#module-01---create-an-azure-purview-account">↥ back to top</a></div>
-
 ## :tada: Summary
 
 This module provided an overview of how to create an Azure Purview account instance.
