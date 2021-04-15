@@ -33,7 +33,7 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
 
 1. Navigate to the **Access Control (IAM)** screen within the Azure Data Lake Storage Gen2 account provisioned in [module 02](../modules/module02.md) and click **Add role assignments**.
 
-    ![Storage Access Control](../images/module03/09.01-storage-access.png)
+    ![Storage Access Control](../images/module03/03.01-storage-access.png)
 
 2. Select the **Storage Blob Data Reader** role and assign this to the account that will query the external data source via Synapse Workspace (i.e. your account). Click **Save**.
 
@@ -43,7 +43,7 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
     | Assign access to | `User, group, or service principal` |
     | Select | `<account-name>` |
 
-    ![Storage RBAC Assignment](../images/module03/09.02-storage-rbac.png)
+    ![Storage RBAC Assignment](../images/module03/03.02-storage-rbac.png)
 
 <div align="right"><a href="#module-09---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
@@ -51,7 +51,7 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
 
 1. Navigate to the Azure Portal and create an **Azure Synapse Analytics** resource.
 
-    ![Azure Marketplace Synapse](../images/module03/09.03-marketplace-synapse.png)
+    ![Azure Marketplace Synapse](../images/module03/03.03-marketplace-synapse.png)
 
 2. Provide the necessary inputs on the **Basics** tab and click **Next: Security >**.
 
@@ -66,19 +66,19 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
     | (ADLS Gen2) Account name | `(Create new) synapseadls2486` |
     | (ADLS Gen2)  File system name | `(Create new) synapsefs2486` |
 
-    ![Create Synapse Workspace](../images/module03/09.04-synapse-basics.png)
+    ![Create Synapse Workspace](../images/module03/03.04-synapse-basics.png)
 
 3. Enter a **password** for the SQL administrator and click **Review + create**.
 
-    ![Synapse Workspace Security](../images/module03/09.05-synapse-security.png)
+    ![Synapse Workspace Security](../images/module03/03.05-synapse-security.png)
 
 4. Click **Create**.
 
-    ![Validate Synapse Workspace](../images/module03/09.06-synapse-validate.png)
+    ![Validate Synapse Workspace](../images/module03/03.06-synapse-validate.png)
 
 5. Monitor your deployment until the status changes to **Your deployment is complete**.
 
-    ![Synapse Workspace Deployment Complete](../images/module03/09.07-synapse-deployment.png)
+    ![Synapse Workspace Deployment Complete](../images/module03/03.07-synapse-deployment.png)
 
 <div align="right"><a href="#module-03---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
@@ -86,19 +86,19 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
 
 1. Within the Azure portal, open the Synapse workspace and click **Open Synapse Studio**.
 
-    ![Open Synapse Studio](../images/module03/09.08-synapse-studio.png)
+    ![Open Synapse Studio](../images/module03/03.08-synapse-studio.png)
 
 2. Navigate to **Manage** > **Azure Purview (Preview)** and click **Connect to a Purview account**.
 
-    ![Connect to a Purview Account](../images/module03/09.09-synapse-connect.png)
+    ![Connect to a Purview Account](../images/module03/03.09-synapse-connect.png)
 
 3. Select your **Purview account** from the drop-down menu and click **Apply**.
 
-    ![Select a Purview Account](../images/module03/09.10-synapse-purview.png)
+    ![Select a Purview Account](../images/module03/03.10-synapse-purview.png)
 
 4. Once the connection has been established, you will receive a notification that **Registration succeeded**.
 
-    ![Purview Account Registered](../images/module03/09.11-synapse-success.png)
+    ![Purview Account Registered](../images/module03/03.11-synapse-success.png)
 
 <div align="right"><a href="#module-09---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
@@ -106,26 +106,21 @@ Registering an Azure Purview account to a Synapse workspace allows you to discov
 
 1. Within the Synapse workspace, navigate to the **Data** screen and perform a **keyword search** (e.g. `parquet`). Notice that the search bar now defaults to searching the entire Purview catalog as opposed to the Synapse workspace only.
 
-    ![Search Purview Account](../images/module03/09.12-synapse-search.png)
+    ![Search Purview Account](../images/module03/03.12-synapse-search.png)
 
 2. Click to open the **asset details** of one of the items (e.g. `twitter_handles.parquet`).
 
-    ![Open Asset Details](../images/module03/09.13-synapse-open.png)
+    ![Open Asset Details](../images/module03/03.13-synapse-open.png)
 
 3. Notice the special Synapse-specific menu items such as **Connect** and **Develop**. For supported file types such as parquet, you can quickly generate sample code to query the external source by navigating to **Develop** > **New SQL script** > **Select top 100**.
 
-    ![Select Top 100](../images/module03/09.14-synapse-select.png)
+    ![Select Top 100](../images/module03/03.14-synapse-select.png)
 
 4. To execute the query, click **Run**. Note: The user executing the query must have the appropriate level of access (e.g. Storage Blob Data Reader), see step 1 for more details..
 
-    ![Run Query](../images/module03/09.15-synapse-run.png)
+    ![Run Query](../images/module03/09.3-synapse-run.png)
 
 <div align="right"><a href="#module-03---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
-
-    A ) True    
-    B ) False  
-
-<div align="right"><a href="#module-09---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
 ## :tada: Summary
 
