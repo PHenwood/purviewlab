@@ -1,6 +1,6 @@
-# Module 03 - Search & Browse
+# Module 03 - Integrate with Azure Synapse Analytics
 
-[< Previous Module](../modules/module02.md) - **[Home](../README.md)** - [Next Module>](../modules/module04.md)
+[< Previous Module](../modules/module02.md) - **[Home](../README.md)**
 
 ## :thinking: Prerequisites
 
@@ -10,164 +10,123 @@
 
 ## :loudspeaker: Introduction
 
-Once sources have been registered and scanned, the underlying data catalog will begin to populate with assets that represent real-world objects (e.g. a table in an Azure SQL Database, a Power BI report, etc.) The surfacing of these assets via Azure Purview's search experience helps empower data consumers to find data assets that matters to them.
+Registering an Azure Purview account to a Synapse workspace allows you to discover Azure Purview assets and interact with them through Synapse specific capabilities.
 
 ## :dart: Objectives
 
-* Search the catalog by keyword.
-* Browse the catalog by source.
-* Update an existing asset.
-* Perform a bulk edit operation.
+* Register an Azure Purview account to a Synapse workspace.
+* Query a dataset that exists in the Azure Purview catalog with Azure Synapse Analytics.
 
 ## Table of Contents
 
-1. [Search Catalog](#1-search-catalog)
-2. [Update an Asset](#2-update-an-asset)
-3. [Browse Assets](#3-browse-assets)
-4. [Bulk Edit](#4-bulk-edit)
+1. [Azure Data Lake Storage Gen2 Account Access](#1-azure-data-lake-storage-gen2-account-access)
+2. [Create an Azure Synapse Analytics Workspace](#2-create-an-azure-synapse-analytics-workspace)
+3. [Connect to a Purview Account](#3-connect-to-a-purview-account)
+4. [Search a Purview Account](#4-search-a-purview-account)
 
-<div align="right"><a href="#module-03---search--browse">↥ back to top</a></div>
+<div align="right"><a href="#module-03---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
-## 1. Search Catalog
+## 1. Azure Data Lake Storage Gen2 Account Access
 
-1. Open Purview Studio and from the **Home** screen, type the asterisk character (**\***) into the search bar and hit **Enter**.
+* This particular unit builds upon  previous modules (e.g. pre-provisioned Azure Purview account with an Azure Data Lake Storage Gen2 account registered and scanned, see prerequisites for more details).
+* While this exercise will focus on how to integrate Azure Purview with Azure Synapse Analytics, if you would like to test the ability to connect to external sources within Synapse Studio, you will need to ensure the account being used to perform ad-hoc queries has sufficient privileges (e.g. Storage Blob Data Reader).
 
-    ![Search Wildcard](../images/module03/03.01-search-wildcard.png)
+1. Navigate to the **Access Control (IAM)** screen within the Azure Data Lake Storage Gen2 account provisioned in [module 02](../modules/module02.md) and click **Add role assignments**.
 
-2. Filter the search results by **Classification** (e.g. Country/Region) and click the hyperlinked asset name to view the details (e.g. QueriesByState).
+    ![Storage Access Control](../images/module03/09.01-storage-access.png)
 
-    ![Filter by Classification](../images/module03/03.02-search-filter.png)
+2. Select the **Storage Blob Data Reader** role and assign this to the account that will query the external data source via Synapse Workspace (i.e. your account). Click **Save**.
 
-<div align="right"><a href="#module-03---search--browse">↥ back to top</a></div>
-
-## 2. Update an Asset
-
-1. Click **Edit** to modify the asset details.
-
-    ![Edit Asset](../images/module03/03.03-asset-edit.png)
-
-2. Update the **Description** by copying and pasting the sample text below.
-
-    > This dataset was curated from the Bing search logs (desktop users only) over the period of Jan 1st, 2020 – (Current Month - 1). Only searches that were issued many times by multiple users were included. The dataset includes queries from all over the world that had an intent related to the Coronavirus or Covid-19. In some cases this intent is explicit in the query itself (e.g., “Coronavirus updates Seattle”), in other cases it is implicit , e.g. “Shelter in place”.
-
-    ![Update Description](../images/module03/03.04-asset-description.png)
-
-3. Assign a **Classification** (e.g. World Cities) using the drop-down menu.
-
-    ![Update Classification](../images/module03/03.05-asset-classification.png)
-
-4. Navigate to the **Schema** tab and update the **column descriptions** using the sample text below.
-
-    | Column Name  | Description |
+    | Property  | Value |
     | --- | --- |
-    | Date | `Date on which the query was issued.` |
-    | Query | `The actual search query issued by user(s).` |
-    | IsImplicitIntent | `True if query did not mention covid or coronavirus or sarsncov2 (e.g, “Shelter in place”). False otherwise.` |
-    | State | `State from where the query was issued.` |
-    | Country | `Country from where the query was issued.` |
-    | PopularityScore | `Value between 1 and 100 inclusive. 1 indicates least popular query on the day/State/Country with Coronavirus intent, and 100 indicates the most popular query for the same geography on the same day.` |
+    | Role | `Storage Blob Data Reader` |
+    | Assign access to | `User, group, or service principal` |
+    | Select | `<account-name>` |
 
-    > :bulb: **Did you know?**
-    >
-    > **Classifications** and **Glossary Terms** can be assigned at the asset level (e.g. a Table within a Database) as well as at the schema level (e.g. a Column within a Table Schema).
+    ![Storage RBAC Assignment](../images/module03/09.02-storage-rbac.png)
 
-    ![Update Schema](../images/module03/03.06-asset-schema.png)
+<div align="right"><a href="#module-09---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
-5. Navigate to the **Contacts** tab and set someone within your organization to be an **Expert** and an **Owner**. Click **Save**.
+## 2. Create an Azure Synapse Analytics Workspace
 
-    > :bulb: **Did you know?**
-    >
-    > Assets can be related to two different types of contacts. **Experts** are often business process or subject matter experts. Where as **Owners** are often senior executives or business area owners that define governance or business processes over certain data areas.
+1. Navigate to the Azure Portal and create an **Azure Synapse Analytics** resource.
 
-    ![Update Contacts](../images/module03/03.07-asset-contacts.png)
+    ![Azure Marketplace Synapse](../images/module03/09.03-marketplace-synapse.png)
 
-6. To see other assets within the same path, navigate to the **Related** tab.
+2. Provide the necessary inputs on the **Basics** tab and click **Next: Security >**.
 
-    ![Related Assets](../images/module03/03.08-asset-related.png)
+    > Note: The table below provides example values for illustrative purposes only, ensure to specify values that make sense for your deployment.
 
-<div align="right"><a href="#module-03---search--browse">↥ back to top</a></div>
+    | Parameter  | Example Value |
+    | --- | --- |
+    | Subscription | `Azure Internal Access` |
+    | Resource group | `purview-workshop` |
+    | Workspace name | `synapse2486` |
+    | Region | `Brazil South` |
+    | (ADLS Gen2) Account name | `(Create new) synapseadls2486` |
+    | (ADLS Gen2)  File system name | `(Create new) synapsefs2486` |
 
-## 3. Browse Assets
+    ![Create Synapse Workspace](../images/module03/09.04-synapse-basics.png)
 
-While the search experience is ideal for keyword based discovery, Purview Studio also allows users to navigate the catalog by source.
+3. Enter a **password** for the SQL administrator and click **Review + create**.
 
-1. Open Purview Studio and from the **Home** screen, click **Browse assets**.
+    ![Synapse Workspace Security](../images/module03/09.05-synapse-security.png)
 
-    ![Browse Assets](../images/module03/03.09-home-browse.png)
+4. Click **Create**.
 
-2. Select a **source** (e.g. Azure Data Lake Storage Gen2).
+    ![Validate Synapse Workspace](../images/module03/09.06-synapse-validate.png)
 
-    ![ADLS Gen2](../images/module03/03.10-browse-adls.png)
+5. Monitor your deployment until the status changes to **Your deployment is complete**.
 
-3. Select an **account** (e.g. storage2486).
+    ![Synapse Workspace Deployment Complete](../images/module03/09.07-synapse-deployment.png)
 
-    ![ADLS Gen2 Account](../images/module03/03.11-browse-account.png)
+<div align="right"><a href="#module-03---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
-4. Select a **container** (e.g. raw).
+## 3. Connect to a Purview Account
 
-    ![ADLS Gen2 Container](../images/module03/03.12-browse-container.png)
+1. Within the Azure portal, open the Synapse workspace and click **Open Synapse Studio**.
 
-<div align="right"><a href="#module-03---search--browse">↥ back to top</a></div>
+    ![Open Synapse Studio](../images/module03/09.08-synapse-studio.png)
 
-## 4. Bulk Edit
+2. Navigate to **Manage** > **Azure Purview (Preview)** and click **Connect to a Purview account**.
 
-Azure Purview allows us to perform certain operations (add/replace/remove) against a subset of attributes (Expert, Owner, Term, Classification) in bulk directly within Purview Studio.
+    ![Connect to a Purview Account](../images/module03/09.09-synapse-connect.png)
 
+3. Select your **Purview account** from the drop-down menu and click **Apply**.
 
-1. Open Purview Studio and from the **Home** screen, type the asterisk character (**\***) into the search bar and hit **Enter**.
+    ![Select a Purview Account](../images/module03/09.10-synapse-purview.png)
 
-    ![Search Wildcard](../images/module03/03.01-search-wildcard.png)
+4. Once the connection has been established, you will receive a notification that **Registration succeeded**.
 
-2. Hover your mouse over an item in the list to reveal the checkbox on the right-hand side. Select five items and click **View selected**.
+    ![Purview Account Registered](../images/module03/09.11-synapse-success.png)
 
-    ![View Selected](../images/module03/03.13-bulk-view.png)
+<div align="right"><a href="#module-09---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
-3. Click **Bulk edit**.
+## 4. Search a Purview Account
 
-    ![Bulk Edit](../images/module03/03.14-bulk-edit.png)
+1. Within the Synapse workspace, navigate to the **Data** screen and perform a **keyword search** (e.g. `parquet`). Notice that the search bar now defaults to searching the entire Purview catalog as opposed to the Synapse workspace only.
 
-4. Set the **Attribute** to `Owner`, set **Operation** to `Add`, select two users in your organization and click **Apply**.
- 
-    ![Apply Changes](../images/module03/03.15-bulk-apply.png)
+    ![Search Purview Account](../images/module03/09.12-synapse-search.png)
 
-5. Click **Deselect all and close**.
+2. Click to open the **asset details** of one of the items (e.g. `twitter_handles.parquet`).
 
-    ![Deselect](../images/module03/03.16-bulk-deselect.png)
+    ![Open Asset Details](../images/module03/09.13-synapse-open.png)
 
-<div align="right"><a href="#module-03---search--browse">↥ back to top</a></div>
+3. Notice the special Synapse-specific menu items such as **Connect** and **Develop**. For supported file types such as parquet, you can quickly generate sample code to query the external source by navigating to **Develop** > **New SQL script** > **Select top 100**.
 
-## :mortar_board: Knowledge Check
+    ![Select Top 100](../images/module03/09.14-synapse-select.png)
 
-1. There are a number of attributes that we can use to narrow our search results via the filter pane, which of the following is **not** available as a quick filter?
+4. To execute the query, click **Run**. Note: The user executing the query must have the appropriate level of access (e.g. Storage Blob Data Reader), see step 1 for more details..
 
-    A ) Asset Type  
-    B ) Classification  
-    C ) Size  
+    ![Run Query](../images/module03/09.15-synapse-run.png)
 
-2. Using Purview Studio (UI), you can edit an asset and manually update an assets Description?
+<div align="right"><a href="#module-03---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
-    A ) True  
+    A ) True    
     B ) False  
 
-3. Using Purview Studio (UI), you can edit an asset and manually add and remove Classifications?
-
-    A ) True  
-    B ) False  
-
-4. Using Purview Studio (UI), you can edit an asset and manually update an assets Technical Properties (e.g. qualifiedName, partitionCount, totalSizeBytes, etc)?
-
-    A ) True  
-    B ) False  
-
-5. Assets in the catalog can be assigned contacts, which of the following is an invalid contact type?
-
-    A ) Expert  
-    B ) Owner  
-    C ) Reader  
-
-<div align="right"><a href="#module-03---search--browse">↥ back to top</a></div>
-
+<div align="right"><a href="#module-09---integrate-with-azure-synapse-analytics">↥ back to top</a></div>
 
 ## :tada: Summary
 
-This module provided an overview of how to search, browse, and update assets.
+This module provided an overview of how to register an Azure Purview account to an Azure Synapse Analytics Workspace, view the details of an asset that exists outside of the Synapse workspace, and how you can quickly query an external source.
